@@ -1,4 +1,16 @@
-## vue3.0新特性编写
+## 性能提升
+
+## 源码升级
+
+* 通过proxy代替defineProperty
+* 虚拟DOM的重写
+* 实现tree-shaking
+
+## 拥抱TS
+
+* 支持tpyescript
+
+## 新特性编写
 
 > 优化点
 >
