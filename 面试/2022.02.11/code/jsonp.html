@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        (function (content) {
+            let id = 0
+            function jsonp(options) {
+                let url = handleUrl(options)
+                let callback = typeof options.success === 'function' ? options.success : ''
+                url += `cb=jsonp.cb[${id}]`
+                if (!jsonp.cb) {
+                    jsonp.cb = []
+                }
+                jsonp.cb[id++] = callback
+                let scriptDom = createScript(url)
+                document.head.appendChild(scriptDom)
+                document.head.removeChild(scriptDom)
+            }
+            function handleUrl(options) {
+                let url = options.url || ''
+                let handleUrl = ''
+                let spli = '?'
+                if (options.params && typeof options.params === 'object') {
+                    if (url.indexOf("?") != -1) {
+                        spli = '&'
+                    }
+                    for (const key in options.params) {
+                        handleUrl += `${key}=${options.params[key]}&`
+                    }
+                }
+                return url + spli + handleUrl
+            }
+            function createScript(url) {
+                let script = document.createElement("script")
+                script.src = url
+                return script
+            }
+            content.jsonp = jsonp
+        })(window)
+
+        jsonp({
+            url: "http://127.0.0.1:8888",
+            success(res) {
+                console.log(res);
+            }
+        })
+    </script>
+
+</body>
+
+</html>
